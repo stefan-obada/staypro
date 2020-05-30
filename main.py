@@ -11,11 +11,11 @@ sg.theme('TanBlue')
 # Log file
 if not path.isdir('SP_log'):
     mkdir('SP_log')
-log_path = 'SP_log/' + date.today().isoformat() + '.csv'
+log_path = 'SP_log/' + 'log.csv'
 
 if not path.isfile(log_path): # First usage per day
     with open(log_path, 'w') as first_file:
-        first_file.write('Activity,Minutes,Seconds\n')
+        first_file.write('Date,Activity,Minutes,Seconds\n')
         # Next row is for future implementation
         # first_file.write('Activity,Start,End,Minutes,Seconds\n')
 
@@ -45,7 +45,8 @@ def update_log(activity, start_time, lost_time):
     try:
         with open(log_path, 'a') as log_file:
             ct = current_time(start_time, lost_time)
-            log_file.write("{},{:02d},{:02d}\n".format(activity, (ct // 100) // 60, (ct // 100) % 60))
+            log_file.write("{},{},{:02d},{:02d}\n".format(date.today().isoformat(),
+                                                          activity, (ct // 100) // 60, (ct // 100) % 60))
     except PermissionError as e:
         sg.Popup('Please close the LOG file.', title='ERROR', )
         update_log(activity, start_time, lost_time)
@@ -81,12 +82,15 @@ def main():
 
             start_time = int(round(time.time() * 100))
             lost_time = 0  # used for counting time in pauses
+            window2_finished = False
 
-            while True:  # Window 2 loop
+            while not window2_finished:  # Window 2 loop
                 event, values = window2.read(timeout=10)
 
                 if event in (None, 'cancel'):  # If cancel, return to window1, update log
                     update_log(activity, start_time, lost_time)
+
+                    # window2_finished = True # Useless
                     window2.close()
                     window1.un_hide()
                     break
@@ -104,6 +108,7 @@ def main():
                             # Update log in 'a' mode
                             update_log(activity, start_time, lost_time)
 
+                            window2_finished = True
                             window2.close()
                             window1.un_hide()
                             break

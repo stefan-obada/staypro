@@ -1,3 +1,6 @@
+v1.2
+   * Changed logging type: one file, dates included
+   * Bug fix: closing from pause adds 2x
 
 v1.1
    * Logging in CSV files
