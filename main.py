@@ -3,6 +3,19 @@ import time
 from datetime import date
 from os import path, mkdir
 
+from kivy.uix.gridlayout import GridLayout
+from kivy.app import App
+
+
+class MainLayout(GridLayout):
+    pass
+
+
+class MainApp(App):
+    def build(self):
+        return MainLayout()
+
+
 # Get screen size
 w_screen, h_screen = sg.Window.get_screen_size()
 sg.theme('TanBlue')
@@ -13,7 +26,7 @@ if not path.isdir('SP_log'):
     mkdir('SP_log')
 log_path = 'SP_log/' + 'log.csv'
 
-if not path.isfile(log_path): # First usage per day
+if not path.isfile(log_path):  # First usage per day
     with open(log_path, 'w') as first_file:
         first_file.write('Date,Activity,Minutes,Seconds\n')
         # Next row is for future implementation
@@ -28,6 +41,8 @@ layout1 = [
 ]
 window1 = sg.Window(title='StayPro', layout=layout1, location=(0, h_screen - 150), use_ttk_buttons=True,
                     alpha_channel=0.85, grab_anywhere=True, element_justification='center', keep_on_top=True)
+
+
 # #
 
 
@@ -37,7 +52,6 @@ def current_time(start_time, lost_time):
 
 
 def update_log(activity, start_time, lost_time):
-
     # Next 2 rows are for future implementation
     # end_ascii_time = time.asctime().split()[3]
     # start_ascii_time = time.ctime(start_time).split()[3]
@@ -50,7 +64,6 @@ def update_log(activity, start_time, lost_time):
     except PermissionError as e:
         sg.Popup('Please close the LOG file.', title='ERROR', )
         update_log(activity, start_time, lost_time)
-
 
 
 def main():
@@ -95,15 +108,15 @@ def main():
                     window1.un_hide()
                     break
 
-                elif event == 'pause': # PAUSE loop (if PAUSE/Space are pressed)
+                elif event == 'pause':  # PAUSE loop (if PAUSE/Space are pressed)
                     start_pause_time = time.time()
 
                     window2['pause'].update('RESUME')
 
-                    while True: # PAUSE Loop until RESUME/Space is pressed
+                    while True:  # PAUSE Loop until RESUME/Space is pressed
                         event, values = window2.read()
 
-                        if event in (None, 'cancel'): # Go back to window1, update log
+                        if event in (None, 'cancel'):  # Go back to window1, update log
 
                             # Update log in 'a' mode
                             update_log(activity, start_time, lost_time)
@@ -113,7 +126,7 @@ def main():
                             window1.un_hide()
                             break
 
-                        elif event == 'pause': # If RESUME or Space is pressed, stay chill
+                        elif event == 'pause':  # If RESUME or Space is pressed, stay chill
                             lost_time = lost_time + time.time() - start_pause_time
                             window2['pause'].update('PAUSE')
                             break
@@ -127,4 +140,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    MainApp().run()
