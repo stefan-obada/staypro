@@ -1,0 +1,62 @@
+#:kivy 1.11.1
+ScreenManager:
+
+    LoginLayout:
+    MainLayout:
+    RuntimeLayout:
+
+<MainLayout>:
+    name: "main"
+
+    GridLayout:
+        rows: 5
+        cols: 1
+        padding: 50
+
+        Label:
+            text: "StayPro"
+
+        TextInput:
+            hint_text: "Activity"
+
+        Button:
+            text: "Start"
+
+        Button:
+            text: "Exit"
+
+
+<LoginLayout>:
+    canvas:
+        Color:
+            rgba: .6, .5, .4, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    name: "login"
+
+    GridLayout:
+        orientation: "vertical"
+        rows: 3
+        cols: 1
+        padding: 40
+
+        TextInput:
+            hint_text: "USER"
+            id: user
+
+        TextInput:
+            hint_text: "PASS"
+            id: pass
+            password: True
+
+        Button:
+            text: "LogIn"
+            on_release: root.check_login()
+
+<RuntimeLayout>:
+
+
+
+
