@@ -8,15 +8,19 @@ import os
 import kivy
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
+from kivy.uix.label import Label
 from kivy.lang.builder import Builder
 from kivy.utils import platform
 from kivy.config import Config
-
 from utils.config import generate_config_path
+Config.read(generate_config_path(platform=platform))
+from kivy.core.window import Window
+
+
 
 # Load config and require kivy version
 kivy.require("1.11.1")
-Config.read(generate_config_path(platform=platform))
+
 
 
 class MainLayout(Screen):
@@ -24,12 +28,29 @@ class MainLayout(Screen):
 
 
 class LoginLayout(Screen):
-    def check_login(self):
-        self.manager.current = "main"
+    def __init__(self, **kwargs):
+        super(Screen, self).__init__(**kwargs)
+        Window.bind(on_key_down=self.keyact)
+
+    def keyact(self, *args):
+        key_code = args[1]
+        if key_code == 13: # Enter key
+            # TODO this results in a bug right now
+            self.check_login()
+
+    def check_login(self, user, pwd):
+        if user is "a" and pwd is "b":
+            # TODO change this to Database
+            self.manager.current = "main"
+        else:
+            print(self)
+            self.add_widget(Label(text="Invalid", color = (1,0,0,1)))
 
 
 class RuntimeLayout(Screen):
-    pass
+
+    def keyact(self, *args):
+        pass
 
 
 class MainApp(App):

@@ -20,17 +20,19 @@ ScreenManager:
         padding: 20
 
         TextInput:
-            hint_text: "USER"
             id: user
+            hint_text: "USER"
+            multiline: False
 
         TextInput:
+            id: pwd
             hint_text: "PASS"
-            id: pass
+            multiline: False
             password: True
 
         Button:
             text: "LogIn"
-            on_release: root.check_login()
+            on_release: root.check_login(user.text, pwd.text)
 
 <MainLayout>:
     name: "main"
@@ -54,6 +56,7 @@ ScreenManager:
             hint_text: "Activity"
 
         Button:
+            id: "btn"
             text: "Start"
 
 
