@@ -20,9 +20,14 @@ from kivy.uix.label import Label
 from kivy.lang.builder import Builder
 from kivy.core.window import Window
 
+from kivy.properties import ObjectProperty, StringProperty
+
 
 class MainLayout(Screen):
+
     def start_activity(self, activity):
+        login_screen = self.manager.get_screen("runtime")
+        login_screen.ids.runtime_current_activity.text = activity
         self.manager.current = "runtime"
 
 
@@ -47,15 +52,17 @@ class LoginLayout(Screen):
 
 
 class RuntimeLayout(Screen):
+    current_activity = StringProperty("init")
+
     def keydown(self, *args):
-        print()
+        print("null")
 
 
 class MainApp(App):
+
     def __init__(self, *args, **kwargs):
         super(MainApp, self).__init__(*args, **kwargs)
         self.sm = ScreenManager()
-        self.varstore = {}
 
     def build(self):
         Builder.load_file("main.kv")
