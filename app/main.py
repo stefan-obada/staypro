@@ -4,27 +4,27 @@
 # from os import path, mkdir
 import os
 
-
 import kivy
+from kivy.config import Config
+from utils.config import generate_config_path
+from kivy.utils import platform
+
+# This has to be done before importing all other uix modules
+kivy.require("1.11.1")
+Config.read(generate_config_path(platform=platform))
+# #
+
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.uix.label import Label
 from kivy.lang.builder import Builder
-from kivy.utils import platform
-from kivy.config import Config
-from utils.config import generate_config_path
-Config.read(generate_config_path(platform=platform))
 from kivy.core.window import Window
 
 
-
-# Load config and require kivy version
-kivy.require("1.11.1")
-
-
-
 class MainLayout(Screen):
-    pass
+    def start_activity(self, activity):
+        self.manager.current = "runtime"
+        print(activity)
 
 
 class LoginLayout(Screen):
@@ -34,7 +34,7 @@ class LoginLayout(Screen):
 
     def keyact(self, *args):
         key_code = args[1]
-        if key_code == 13: # Enter key
+        if key_code == 13:  # Enter key
             # TODO this results in a bug right now
             self.check_login()
 
@@ -44,7 +44,7 @@ class LoginLayout(Screen):
             self.manager.current = "main"
         else:
             print(self)
-            self.add_widget(Label(text="Invalid", color = (1,0,0,1)))
+            self.add_widget(Label(text="Invalid", color=(1, 0, 0, 1)))
 
 
 class RuntimeLayout(Screen):

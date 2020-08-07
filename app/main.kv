@@ -39,7 +39,6 @@ ScreenManager:
 
     BoxLayout:
         orientation: "vertical"
-#        size_hint: 0.8, 0.5
         padding: 20
 
         canvas:
@@ -53,15 +52,32 @@ ScreenManager:
             text: "StayPro"
 
         TextInput:
+            id: activity
             hint_text: "Activity"
 
         Button:
             id: "btn"
             text: "Start"
+            on_release: root.start_activity(activity.text)
 
 
 
 <RuntimeLayout>:
+    name: "runtime"
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+
+        canvas:
+            Color:
+                rgba: .6, .5, .4, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    Label:
+        text: "Activity"
 
 
 
