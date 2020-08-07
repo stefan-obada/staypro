@@ -1,9 +1,4 @@
 #:kivy 1.11.1
-ScreenManager:
-
-    LoginLayout:
-    MainLayout:
-    RuntimeLayout:
 
 <LoginLayout>:
     canvas:
@@ -76,8 +71,11 @@ ScreenManager:
                 pos: self.pos
                 size: self.size
 
-    Label:
-        text: "Activity"
+        Label:
+            text: "Activity"
+
+        Button:
+            on_press: root.keydown()
 
 
 

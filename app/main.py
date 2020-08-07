@@ -15,7 +15,7 @@ Config.read(generate_config_path(platform=platform))
 # #
 
 from kivy.app import App
-from kivy.uix.screenmanager import Screen
+from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.label import Label
 from kivy.lang.builder import Builder
 from kivy.core.window import Window
@@ -24,7 +24,6 @@ from kivy.core.window import Window
 class MainLayout(Screen):
     def start_activity(self, activity):
         self.manager.current = "runtime"
-        print(activity)
 
 
 class LoginLayout(Screen):
@@ -48,14 +47,22 @@ class LoginLayout(Screen):
 
 
 class RuntimeLayout(Screen):
-
-    def keyact(self, *args):
-        pass
+    def keydown(self, *args):
+        print()
 
 
 class MainApp(App):
+    def __init__(self, *args, **kwargs):
+        super(MainApp, self).__init__(*args, **kwargs)
+        self.sm = ScreenManager()
+        self.varstore = {}
+
     def build(self):
-        return Builder.load_file("main.kv")
+        Builder.load_file("main.kv")
+        self.sm.add_widget(LoginLayout(name="login"))
+        self.sm.add_widget(MainLayout(name="main"))
+        self.sm.add_widget(RuntimeLayout(name="runtime"))
+        return self.sm
 
 
 if __name__ == '__main__':
