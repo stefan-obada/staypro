@@ -57,6 +57,9 @@ class RuntimeLayout(Screen):
     def keydown(self, *args):
         print("null")
 
+    def stop(self):
+        self.manager.current="main"
+
 
 class MainApp(App):
 
