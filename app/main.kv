@@ -75,8 +75,14 @@
             id: runtime_current_activity
             text: ""
 
+        Label:
+            id: runtime_current_time
+            text:""
+
         Button:
+            id: runtime_pause_btn
             text: "PAUSE"
+            on_release: root.pause_timer()
 
         Button:
             text: "STOP"

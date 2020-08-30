@@ -1,8 +1,11 @@
 # import PySimpleGUI as sg
-# import time
+
 # from datetime import date
 # from os import path, mkdir
 import os
+import time
+import datetime
+from functools import partial
 
 import kivy
 from kivy.config import Config
@@ -19,6 +22,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.label import Label
 from kivy.lang.builder import Builder
 from kivy.core.window import Window
+from kivy.clock import Clock
 
 from kivy.properties import ObjectProperty, StringProperty
 
@@ -26,8 +30,12 @@ from kivy.properties import ObjectProperty, StringProperty
 class MainLayout(Screen):
 
     def start_activity(self, activity):
-        login_screen = self.manager.get_screen("runtime")
-        login_screen.ids.runtime_current_activity.text = activity
+        # Set RUNTIME text to activity and start timer
+        runtime_screen = self.manager.get_screen("runtime")
+        runtime_screen.start_timer()
+        runtime_screen.update_activity(activity=activity)
+
+        # Set screen
         self.manager.current = "runtime"
 
 
@@ -52,13 +60,45 @@ class LoginLayout(Screen):
 
 
 class RuntimeLayout(Screen):
-    current_activity = StringProperty("init")
+    # current_activity = StringProperty("init")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.paused = False
 
     def keydown(self, *args):
         print("null")
 
     def stop(self):
-        self.manager.current="main"
+        self.stop_timer()
+        self.manager.current = "main"
+
+    def update_time(self, start_time, *args):
+        eta = datetime.timedelta(seconds=(int(time.time() - start_time)))
+        processed_eta = eta.__str__()
+        self.ids.runtime_current_time.text = processed_eta
+
+    def update_activity(self, activity):
+        self.ids.runtime_current_activity.text = activity
+
+    def start_timer(self):
+        start_time = time.time()
+        self.timer = Clock.schedule_interval(partial(self.update_time, start_time), 1)
+
+    def stop_timer(self):
+        if self.timer:
+            self.timer.cancel()
+
+    def pause_timer(self):
+        if self.paused:
+            self.start_timer()
+            self.ids.runtime_pause_btn.text = "PAUSE"
+            self.paused = False
+        else:
+            start_pause_time = time.time()
+            self.stop_timer()
+            self.ids.runtime_pause_btn.text = "RESUME"
+            self.paused = True
 
 
 class MainApp(App):
