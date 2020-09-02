@@ -1,7 +1,5 @@
-# import PySimpleGUI as sg
+from abc import abstractmethod, ABC
 
-# from datetime import date
-# from os import path, mkdir
 import os
 import time
 import datetime
@@ -27,43 +25,86 @@ from kivy.clock import Clock
 from kivy.properties import ObjectProperty, StringProperty
 
 
+class BaseLayout(ABC):
+    """ Protocol for all layouts in the app. """
+
+    @abstractmethod
+    def exit_point(self, screen):
+        """ Should unbind everything from keyboard and do """
+        return NotImplementedError
+
+    @abstractmethod
+    def _entry_point(self):
+        """ Should change the screen and bind keyboard inputs """
+
+
 class MainLayout(Screen):
 
-    def start_activity(self, activity):
+    def entry_point(self):
+        Window.bind(on_key_down=self.keyact)
+
+    def exit_point(self, screen):
+        pass
+
+    def keyact(self, *args):
+        key_code = args[1]
+        if key_code == 13:  # Enter key
+            print("Starting activity...")
+            self.start_activity()
+
+    def start_activity(self):
         # Set RUNTIME text to activity and start timer
         runtime_screen = self.manager.get_screen("runtime")
         runtime_screen.start_timer()
-        runtime_screen.update_activity(activity=activity)
+        runtime_screen.update_activity(activity=self.ids.main_activity.text)
 
         # Set screen
         self.manager.current = "runtime"
 
 
 class LoginLayout(Screen):
+
+    def entry_point(self):
+        Window.bind(on_key_down=self.keyact)
+
+    def exit_point(self, screen):
+        Window.unbind(on_key_down=self.keyact)
+        self.manager.get_screen(screen).entry_point()
+        self.manager.current = screen
+
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
-        Window.bind(on_key_down=self.keyact)
+        self.entry_point()
 
     def keyact(self, *args):
         key_code = args[1]
         if key_code == 13:  # Enter key
-            # TODO this results in a bug right now
+            print("Checking login...")
             self.check_login()
 
-    def check_login(self, user, pwd):
+    def check_login(self):
+        user = self.ids.login_user.text
+        pwd = self.ids.login_pwd.text
         if user is "a" and pwd is "b":
             # TODO change this to Database
-            self.manager.current = "main"
+            self.exit_point("main")
         else:
             print(self)
             self.add_widget(Label(text="Invalid", color=(1, 0, 0, 1)))
 
 
+
 class RuntimeLayout(Screen):
-    # current_activity = StringProperty("init")
+
+    def entry_point(self):
+        pass
+
+    def exit_point(self, screen):
+        pass
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # self.bind()
         self.paused = False
 
     def keydown(self, *args):

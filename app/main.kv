@@ -15,19 +15,19 @@
         padding: 20
 
         TextInput:
-            id: user
+            id: login_user
             hint_text: "USER"
             multiline: False
 
         TextInput:
-            id: pwd
+            id: login_pwd
             hint_text: "PASS"
             multiline: False
             password: True
 
         Button:
             text: "LogIn"
-            on_release: root.check_login(user.text, pwd.text)
+            on_release: root.check_login()
 
 <MainLayout>:
     name: "main"
@@ -47,7 +47,7 @@
             text: "StayPro"
 
         TextInput:
-            id: activity
+            id: main_activity
             hint_text: "Activity"
 
         Button:
