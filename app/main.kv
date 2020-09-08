@@ -53,7 +53,7 @@
         Button:
             id: "btn"
             text: "Start"
-            on_release: root.start_activity(activity.text)
+            on_release: root.start_activity()
 
 
 
@@ -82,7 +82,7 @@
         Button:
             id: runtime_pause_btn
             text: "PAUSE"
-            on_release: root.pause_timer()
+            on_release: root.pause()
 
         Button:
             text: "STOP"
