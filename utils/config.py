@@ -6,7 +6,7 @@ def generate_config_path(platform, overwrite=False):
     cfg_path = os.path.join(root,"config", platform + ".ini")
 
     if not os.path.isfile(cfg_path):
-        raise Exception(f"Cannot found config file for platform {platform}")
+        raise Exception(f"Cannot found config file for platform {platform}, loading general.")
 
     else:
         return cfg_path
