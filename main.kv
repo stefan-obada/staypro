@@ -1,0 +1,93 @@
+#:kivy 1.11.1
+
+<LoginLayout>:
+    canvas:
+        Color:
+            rgba: .6, .5, .4, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    name: "login"
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+
+        TextInput:
+            id: login_user
+            hint_text: "USER"
+            multiline: False
+
+        TextInput:
+            id: login_pwd
+            hint_text: "PASS"
+            multiline: False
+            password: True
+
+        Button:
+            text: "LogIn"
+            on_release: root.check_login()
+
+<MainLayout>:
+    name: "main"
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+
+        canvas:
+            Color:
+                rgba: .6, .5, .4, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "StayPro"
+
+        TextInput:
+            id: main_activity
+            hint_text: "Activity"
+
+        Button:
+            id: "btn"
+            text: "Start"
+            on_release: root.start_activity()
+
+
+
+<RuntimeLayout>:
+    name: "runtime"
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+
+        canvas:
+            Color:
+                rgba: .6, .5, .4, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            id: runtime_current_activity
+            text: ""
+
+        Label:
+            id: runtime_current_time
+            text:""
+
+        Button:
+            id: runtime_pause_btn
+            text: "PAUSE"
+            on_release: root.pause()
+
+        Button:
+            text: "STOP"
+            on_release: root.stop()
+
+
+
+

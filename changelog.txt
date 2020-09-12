@@ -1,0 +1,16 @@
+v2.0
+   * Changed to Kivy back-end
+   * Changed color theme
+   * Added login features
+
+v1.2
+   * Changed logging type: one file, dates included
+   * Bug fix: closing from pause adds 2x
+
+v1.1
+   * Logging in CSV files
+   * Bug fix: cancel in pause
+
+v1.0
+   * Basic ability to time a specific activity
+   * Pause implementation
