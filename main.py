@@ -18,6 +18,7 @@ Config.read(generate_config_path(platform=platform))
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.label import Label
+from kivy.uix.screenmanager import FallOutTransition, FadeTransition, WipeTransition
 from kivy.lang.builder import Builder
 from kivy.core.window import Window
 from kivy.clock import Clock
@@ -76,6 +77,7 @@ class LoginLayout(BaseLayout, Screen, metaclass=MetaMerge):
     def check_login(self):
         user = self.ids.login_user.text
         pwd = self.ids.login_pwd.text
+        Logger.info(f"LOGIN: User {user} attempting login.")
         if user is "a" and pwd is "b":
             # TODO change this to Database
             self.exit(screen="main")
@@ -112,13 +114,14 @@ class RuntimeLayout(BaseLayout, Screen, metaclass=MetaMerge):
         self.paused = False
 
         # Make sure button is on PAUSED
-        self.ids.runtime_pause_btn.text = "PAUSED"
+        self.ids.runtime_pause_btn.text = "PAUSE"
 
         # Schedule time update on screen
         Clock.schedule_interval(self.update_time, self.timer.update_interval/2)
 
     def exit_add(self, *args, **kwargs):
         self.timer.stop()
+        orm.upload_activity(timer=self.timer)
 
 
     def stop(self):
@@ -138,6 +141,7 @@ class RuntimeLayout(BaseLayout, Screen, metaclass=MetaMerge):
         if self.paused:
             # Re-start the time
             self.timer.start()
+            self.paused = False
 
             # Switch button from "RESUME" to "PAUSE"
             self.ids.runtime_pause_btn.text = "PAUSE"
@@ -152,7 +156,7 @@ class MainApp(App):
 
     def __init__(self, *args, **kwargs):
         super(MainApp, self).__init__(*args, **kwargs)
-        self.sm = ScreenManager()
+        self.sm = ScreenManager(transition=FallOutTransition())
 
     def build(self):
         Builder.load_file("main.kv")

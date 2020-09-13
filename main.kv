@@ -27,7 +27,7 @@
 
         Button:
             text: "LogIn"
-            on_release: root.check_login()
+            on_press: root.check_login()
 
 <MainLayout>:
     name: "main"
@@ -53,7 +53,7 @@
         Button:
             id: "btn"
             text: "Start"
-            on_release: root.start_activity()
+            on_press: root.start_activity()
 
 
 
@@ -82,11 +82,11 @@
         Button:
             id: runtime_pause_btn
             text: "PAUSE"
-            on_release: root.pause()
+            on_press: root.pause()
 
         Button:
             text: "STOP"
-            on_release: root.stop()
+            on_press: root.stop()
 
 
 
