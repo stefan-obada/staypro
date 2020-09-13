@@ -77,11 +77,9 @@ class LoginLayout(BaseLayout, Screen, metaclass=MetaMerge):
         user = self.ids.login_user.text
         pwd = self.ids.login_pwd.text
         Logger.info(f"LOGIN: User {user} attempting login.")
-        if user is "a" and pwd is "b":
-            # TODO change this to Database
+        if api.login(username=user, password=pwd):
             self.exit(screen="main")
         else:
-            print(self)
             self.add_widget(Label(text="Invalid", color=(1, 0, 0, 1)))
 
 
