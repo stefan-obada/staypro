@@ -13,8 +13,8 @@ def get_timer(activity, update_interval=0.5):
 class Timer:
     """
     Timer instance shall be used to track only a single activity.
-    Load with load()
-    Destroy with stop()
+    Load thread with load()
+    Destroy thread with stop()
     """
 
     def __init__(self, activity="", update_interval=0.5):
@@ -75,7 +75,7 @@ class Timer:
             if secs < 10:
                 return f"00:0{secs}"
             else:
-                return f"{secs}"
+                return f"00:{secs}"
         elif hours == 0:
             if mins < 10:
                 return f"0{mins}:{secs}"
