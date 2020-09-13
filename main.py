@@ -1,9 +1,7 @@
 from abc import abstractmethod, ABC
 
-import os
-import time
-import datetime
-from functools import partial
+from dotenv import load_dotenv
+load_dotenv()
 
 import kivy
 from kivy.config import Config
@@ -18,13 +16,14 @@ Config.read(generate_config_path(platform=platform))
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.label import Label
-from kivy.uix.screenmanager import FallOutTransition, FadeTransition, WipeTransition
+from kivy.uix.screenmanager import FallOutTransition
 from kivy.lang.builder import Builder
 from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.logger import Logger
 
 from timer import get_timer
+from utils import api
 
 UPDATE_INTERVAL = 0.1
 
@@ -109,7 +108,7 @@ class RuntimeLayout(BaseLayout, Screen, metaclass=MetaMerge):
         self.ids.runtime_current_activity.text = self.activity
 
         # Start timer
-        self.timer = get_timer(activity=self.activity, update_interval=UPDATE_INTERVAL/3)
+        self.timer = get_timer(activity=self.activity, update_interval=UPDATE_INTERVAL / 3)
         self.timer.start()
         self.paused = False
 
@@ -117,12 +116,11 @@ class RuntimeLayout(BaseLayout, Screen, metaclass=MetaMerge):
         self.ids.runtime_pause_btn.text = "PAUSE"
 
         # Schedule time update on screen
-        Clock.schedule_interval(self.update_time, self.timer.update_interval/2)
+        Clock.schedule_interval(self.update_time, self.timer.update_interval / 2)
 
     def exit_add(self, *args, **kwargs):
         self.timer.stop()
-        orm.upload_activity(timer=self.timer)
-
+        api.upload_activity(timer=self.timer)
 
     def stop(self):
         self.exit(screen="main")
