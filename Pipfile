@@ -17,6 +17,7 @@ pypiwin32 = "*"
 "kivy-deps.glew" = "==0.1.*"
 "kivy-deps.angle" = "==0.1.*"
 kivy = "==1.11.1"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"
