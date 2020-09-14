@@ -11,9 +11,11 @@ def login(username: str, password: str) -> bool:
     body = {"username": username,
             "password": password}
     try:
-        response = requests.post(os.getenv("LOGIN_ENDPOINT"), json=body)
+        response = requests.post(os.getenv("LOGIN_ENDPOINT"), json=body, timeout=10)
+        print(response.json())
         if response.json()["ok"]:
             os.environ["USR_TOKEN"] = response.json()["token"]
+            return True
         else:
             return False
     except Exception as e:
@@ -28,7 +30,7 @@ def register(username: str, password: str, email: str, real_name: str) -> bool:
             "real_name": real_name}
 
     try:
-        response = requests.post(os.getenv("LOGIN_ENDPOINT"), json=body)
+        response = requests.post(os.getenv("LOGIN_ENDPOINT"), json=body, timeout=10)
         return response.json()["ok"]
     except Exception as e:
         Logger.warn(f"REGISTER: Could not register user {username}")
