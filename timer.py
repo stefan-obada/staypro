@@ -38,8 +38,11 @@ class Timer:
             time.sleep(self.update_interval)
 
     def start(self):
-        if not self.thread.is_alive():
+        if hasattr(self, "thread") and not self.thread.is_alive():
             self.load()
+        elif not hasattr(self, "thread"):
+            self.load()
+
         self.paused = False
         self.thread.start()
         self.log_info("Timer started.")
