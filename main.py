@@ -1,5 +1,5 @@
 from abc import abstractmethod, ABC
-
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -118,7 +118,7 @@ class RuntimeLayout(BaseLayout, Screen, metaclass=MetaMerge):
 
     def exit_add(self, *args, **kwargs):
         self.timer.stop()
-        api.upload_activity(timer=self.timer)
+        api.post_activity(token=os.getenv("STAYPRO_TOKEN"), activity=self.timer.activity, seconds=self.timer.time)
 
     def stop(self):
         self.exit(screen="main")
