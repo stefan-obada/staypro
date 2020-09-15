@@ -65,12 +65,11 @@ class LoginLayout(BaseLayout, Screen, metaclass=MetaMerge):
 
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
-        self.entry_add()
+        self.entry()
 
     def keyact(self, *args):
         key_code = args[1]
         if key_code == 13:  # Enter key
-            print("Checking login...")
             self.check_login()
 
     def check_login(self):
@@ -88,7 +87,6 @@ class MainLayout(BaseLayout, Screen, metaclass=MetaMerge):
     def keyact(self, *args):
         key_code = args[1]
         if key_code == 13:  # Enter key
-            print("Starting activity...")
             self.start_activity()
 
     def start_activity(self):
@@ -98,7 +96,9 @@ class MainLayout(BaseLayout, Screen, metaclass=MetaMerge):
 class RuntimeLayout(BaseLayout, Screen, metaclass=MetaMerge):
 
     def keyact(self, *args):
-        pass
+        key_code = args[1]
+        if key_code == 13 or key_code == 32:  # Enter key
+            self.pause()
 
     def entry_add(self, *args, **kwargs):
         # Set activity
