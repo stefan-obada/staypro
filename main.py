@@ -1,5 +1,10 @@
-from abc import abstractmethod, ABC
 import os
+import sys
+if hasattr(sys, '_MEIPASS'):
+    os.chdir(sys._MEIPASS)
+
+from abc import abstractmethod, ABC
+
 from dotenv import load_dotenv
 load_dotenv()
 
