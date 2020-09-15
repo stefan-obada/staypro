@@ -12,9 +12,12 @@ def login(username: str, password: str) -> bool:
             "password": password}
     try:
         response = requests.post(os.getenv("LOGIN_ENDPOINT"), json=body, timeout=10)
-        print(response.json())
         if response.json()["ok"]:
             os.environ["STAYPRO_TOKEN"] = response.json()["token"]
+            if "real_name" in response.json().keys():
+                os.environ["STAYPRO_REAL_NAME"] = response.json()["real_name"]
+            else:
+                os.environ["STAYPRO_REAL_NAME"] = username
             Logger.info(f"LOGIN: Successful login {username}")
             return True
         else:
@@ -52,6 +55,7 @@ def get_activities(token: str):
 def post_activity(token: str, activity: str, seconds: float) -> bool:
     body = {"token": token,
             "activities": {activity: seconds}}
+    # TODO : add the timestamp too
 
     try:
         response = requests.post(os.getenv("ACTIVITIES_ENDPOINT"), json=body, timeout=10)

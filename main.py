@@ -84,6 +84,9 @@ class LoginLayout(BaseLayout, Screen, metaclass=MetaMerge):
 
 class MainLayout(BaseLayout, Screen, metaclass=MetaMerge):
 
+    def entry_add(self, *args, **kwargs):
+        self.ids.main_welcome.text = f"Hi, {os.getenv('STAYPRO_REAL_NAME')}!"
+
     def keyact(self, *args):
         key_code = args[1]
         if key_code == 13:  # Enter key
@@ -155,6 +158,7 @@ class MainApp(App):
         self.sm = ScreenManager(transition=FallOutTransition())
 
     def build(self):
+        self.title = "StayPro"
         Builder.load_file("main.kv")
         self.sm.add_widget(LoginLayout(name="login"))
         self.sm.add_widget(MainLayout(name="main"))
