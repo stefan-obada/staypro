@@ -100,6 +100,11 @@ class MainLayout(BaseLayout, Screen, metaclass=MetaMerge):
     def start_activity(self):
         self.exit(screen="runtime", activity=self.ids.main_activity.text)
 
+    def open_history(self):
+        token = os.getenv("STAYPRO_TOKEN")
+        api.open_history(token)
+        print(token)
+
 
 class RuntimeLayout(BaseLayout, Screen, metaclass=MetaMerge):
 

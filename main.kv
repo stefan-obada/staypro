@@ -36,7 +36,7 @@
 
     BoxLayout:
         orientation: "vertical"
-        padding: 20
+        padding: 15
 
         canvas:
             Color:
@@ -52,12 +52,17 @@
         TextInput:
             id: main_activity
             hint_text: "Activity"
+			multiline: False
 
         Button:
-            id: "btn"
+            id: main_start
             text: "Start"
             on_press: root.start_activity()
 
+        Button:
+            id: main_history
+            text: "History"
+            on_press: root.open_history()
 
 
 <RuntimeLayout>:

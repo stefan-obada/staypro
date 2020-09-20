@@ -1,5 +1,6 @@
 import requests
 import os
+import webbrowser
 from kivy.logger import Logger
 
 from dotenv import load_dotenv
@@ -64,3 +65,7 @@ def post_activity(token: str, activity: str, seconds: float) -> bool:
     except Exception as e:
         Logger.warn(f"ACTIVITIES: Could not post activities for token {token}")
         return False
+
+
+def open_history(token: str):
+    webbrowser.open(os.path.join(os.getenv("HISTORY_ENDPOINT"), token))
