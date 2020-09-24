@@ -27,6 +27,7 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.logger import Logger
 
+from widgets import *  # This is to execute the registrations for additional widgets
 from timer import get_timer
 from utils import api
 
