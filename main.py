@@ -103,7 +103,6 @@ class MainLayout(BaseLayout, Screen, metaclass=MetaMerge):
     def open_history(self):
         token = os.getenv("STAYPRO_TOKEN")
         api.open_history(token)
-        print(token)
 
 
 class RuntimeLayout(BaseLayout, Screen, metaclass=MetaMerge):
@@ -131,7 +130,8 @@ class RuntimeLayout(BaseLayout, Screen, metaclass=MetaMerge):
 
     def exit_add(self, *args, **kwargs):
         self.timer.stop()
-        api.post_activity(token=os.getenv("STAYPRO_TOKEN"), activity=self.timer.activity, seconds=self.timer.time)
+        if self.timer.time > 5:
+            api.post_activity(token=os.getenv("STAYPRO_TOKEN"), activity=self.timer.activity, seconds=self.timer.time)
 
     def stop(self):
         self.exit(screen="main")
