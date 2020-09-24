@@ -1,5 +1,38 @@
 #:kivy 1.11.1
 
+<MenuButton@HoverButton>:
+    background_color: 0,0,0,0
+    background_normal: ""
+
+#    line_active_color: 0.27, .1, .8, 0.5
+#    line_inactive_color: 0.27, .1, .8, 0.8
+
+    back_active_color: 0.8, 0.8, 0.8, 0.7
+    back_inactive_color: 0.8, 0.8, 0.8, 0.9
+
+    border_radius: 14
+    bold: False
+
+    color: 0.12, 0.328, 0.552, 1    # Text color
+
+#    canvas.after:
+#        Color:
+#            rgba: self.line_active_color if self.hovered else self.line_inactive_color
+#        Line:
+#            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], self.border_radius)
+#            width: 1.1
+
+    canvas.before:
+        Color:
+            rgba: self.back_active_color if self.hovered else self.back_inactive_color
+
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [self.border_radius]
+
+
+
 <LoginLayout>:
     canvas:
         Color:
@@ -27,17 +60,20 @@
             password: True
             write_tab: False
 
-        Button:
-            text: "LogIn"
-            on_press: root.check_login()
-            background_color:
+        BoxLayout:
+            padding: 3
+
+            MenuButton:
+                text: "LogIn"
+                on_release: root.check_login()
 
 <MainLayout>:
     name: "main"
 
     BoxLayout:
         orientation: "vertical"
-        padding: 15
+        padding: 10
+        spacing: 4
 
         canvas:
             Color:
@@ -46,24 +82,36 @@
                 pos: self.pos
                 size: self.size
 
-        Label:
-            text: "Hello, !"
-            id: main_welcome
+        BoxLayout:
 
-        TextInput:
-            id: main_activity
-            hint_text: "Activity"
-			multiline: False
+            orientation: "vertical"
 
-        Button:
-            id: main_start
-            text: "Start"
-            on_press: root.start_activity()
+            Label:
+                size_hint: 1, 1
+                text: "Hello, !"
+                id: main_welcome
 
-        Button:
-            id: main_history
-            text: "History"
-            on_press: root.open_history()
+            TextInput:
+                size_hint: 0.85, .9
+                pos_hint: {"center_x": 0.5}
+                id: main_activity
+                hint_text: "What are you doing now?"
+                multiline: False
+
+        BoxLayout:
+            padding: 9
+            spacing: 5
+            orientation: "horizontal"
+
+            MenuButton:
+                id: main_start
+                text: "Start"
+                on_release: root.start_activity()
+
+            MenuButton:
+                id: main_history
+                text: "History"
+                on_release: root.open_history()
 
 
 <RuntimeLayout>:
@@ -88,14 +136,19 @@
             id: runtime_current_time
             text:""
 
-        Button:
-            id: runtime_pause_btn
-            text: "PAUSE"
-            on_press: root.pause()
+        BoxLayout:
+            padding: 5
+            spacing: 5
+            orientation: "horizontal"
 
-        Button:
-            text: "STOP"
-            on_press: root.stop()
+            MenuButton:
+                id: runtime_pause_btn
+                text: "PAUSE"
+                on_release: root.pause()
+
+            MenuButton:
+                text: "STOP"
+                on_release: root.stop()
 
 
 
