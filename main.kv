@@ -4,23 +4,14 @@
     background_color: 0,0,0,0
     background_normal: ""
 
-#    line_active_color: 0.27, .1, .8, 0.5
-#    line_inactive_color: 0.27, .1, .8, 0.8
 
     back_active_color: 0.8, 0.8, 0.8, 0.7
     back_inactive_color: 0.8, 0.8, 0.8, 0.9
 
     border_radius: 14
-    bold: False
+    bold: False if self.state == 'normal' else True
 
     color: 0.12, 0.328, 0.552, 1    # Text color
-
-#    canvas.after:
-#        Color:
-#            rgba: self.line_active_color if self.hovered else self.line_inactive_color
-#        Line:
-#            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], self.border_radius)
-#            width: 1.1
 
     canvas.before:
         Color:
