@@ -3,7 +3,6 @@ from kivy_deps import sdl2, glew
 
 block_cipher = None
 
-
 a = Analysis(['main.py'],
              pathex=['D:\\WORK\\StayPro\\staypro-app'],
              binaries=[],
