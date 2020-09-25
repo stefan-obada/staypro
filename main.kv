@@ -112,6 +112,7 @@
     BoxLayout:
         orientation: "vertical"
         padding: 20
+        spacing: 5
 
         canvas:
             Color:
@@ -120,13 +121,22 @@
                 pos: self.pos
                 size: self.size
 
-        Label:
-            id: runtime_current_activity
-            text: ""
+        BoxLayout:
+            orientation: "horizontal"
 
-        Label:
-            id: runtime_current_time
-            text:""
+            Label:
+                id: runtime_current_activity
+                valign: "center"
+                halign: "center"
+                text_size: self.size
+                multiline: True
+                text: ""
+
+            Label:
+                id: runtime_current_time
+                valign: "center"
+                halign: "center"
+                text:""
 
         BoxLayout:
             padding: 5
