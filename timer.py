@@ -71,18 +71,28 @@ class Timer:
 
     def get_hhmmss(self):
         secs = int(self.__time)
+
         mins, secs = divmod(secs, 60)
         hours, mins = divmod(mins, 60)
 
-        if mins == 0:
-            if secs < 10:
-                return f"00:0{secs}"
-            else:
-                return f"00:{secs}"
-        elif hours == 0:
-            if mins < 10:
-                return f"0{mins}:{secs}"
-            else:
-                return f"{mins}:{secs}"
+        if secs < 10:
+            str_secs = f"0{secs}"
         else:
-            return f"{hours}:{mins}:{secs}"
+            str_secs = f"{secs}"
+
+        if mins < 10:
+            str_mins = f"0{mins}"
+        else:
+            str_mins = f"{mins}"
+
+        if hours < 10:
+            str_hours = f"0{hours}"
+        else:
+            str_hours = f"{hours}"
+
+        if hours == 0:
+            return f"{str_mins}:{str_secs}"
+        else:
+            return f"{str_hours}:{str_mins}:{str_secs}"
+
+
