@@ -42,17 +42,6 @@ def register(username: str, password: str, email: str, real_name: str) -> bool:
         return False
 
 
-def get_activities(token: str):
-    body = {"token": token}
-
-    try:
-        response = requests.get(os.getenv("ACTIVITIES_ENDPOINT"), json=body)
-        return response.json()["activities"]  # TODO CHANGE IN SERVER BEFORE, do not use !!
-    except Exception as e:
-        Logger.warn(f"ACTIVITIES: Could not get activities for token {token}")
-        return False
-
-
 def post_activity(token: str, activity: str, seconds: float) -> bool:
     body = {"token": token,
             "activities": {activity: seconds}}
