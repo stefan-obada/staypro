@@ -1,7 +1,14 @@
+Coming Soon
+   * Support for Android
+   * Interactive History UI
+   * Predictive analysis of personal schedule
+
 v2.0
    * Changed to Kivy back-end
+   * Moved to Cloud Database, no local logging
+   * Added register & login features
    * Changed color theme
-   * Added login features
+   * In-browser Capacity to track history
 
 v1.2
    * Changed logging type: one file, dates included
